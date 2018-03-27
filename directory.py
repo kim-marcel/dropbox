@@ -1,0 +1,10 @@
+from google.appengine.ext import ndb
+
+
+class Directory(ndb.Model):
+    # The key of the directory in which this one is in
+    # Used to move up, is empty, when in root directory
+    # Maybe string property???
+    parent_directory = ndb.KeyProperty()
+    # Keys of all the files in this directory
+    files = ndb.KeyProperty(repeated=True)
