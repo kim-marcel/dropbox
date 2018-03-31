@@ -11,6 +11,22 @@
     <p class="sub-headline">
         You are logged in as
         {{ user.email() }}</p>
+
+    <p>Add a new Directory:</p>
+    <form method="post" action="/">
+        <input type="text" name="value">
+        <input type="submit" name="button" value="Add">
+    </form>
+
+    {% if directories %}
+    These are your directories in {{ current_directory }}:<br>
+    {% for directory in directories %}
+    {{directory.get().name}}<br>
+    {% endfor %}
+    {% endif %}
+
+    <br>
+
     <a href="{{ url }}">
         <div class="button_element">
             Logout
