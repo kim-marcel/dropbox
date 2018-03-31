@@ -1,6 +1,7 @@
 from google.appengine.ext import ndb
 from google.appengine.api import users
 from myuser import MyUser
+from directory import Directory
 import logging
 import re  # regex
 
@@ -28,7 +29,25 @@ def user_exists():
 
 
 def add_new_user(user):
-    MyUser(id=user.user_id()).put()
+    my_user = MyUser(id=user.user_id())
+    my_user.put()
+    add_new_directory(None, None, my_user)
+
+
+def add_new_directory(name, parent_directory, my_user):
+    if parent_directory is None:
+        # the root-directory is being created
+        id = my_user.key.id() + '/'
+    else:
+        # a regular directory gets created
+        id = parent_directory + '/' + name
+
+    directory = Directory(id=id)
+    directory.parent_directory = parent_directory
+    directory.put()
+
+    my_user.directories.append(directory.key)
+    my_user.put()
 
 
 def get_login_url(main_page):
