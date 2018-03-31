@@ -1,7 +1,9 @@
 import webapp2
 import logging
+from google.appengine.ext import ndb
 import renderer
 import utilities
+from directory import Directory
 
 
 class MainPage(webapp2.RequestHandler):
@@ -16,7 +18,13 @@ class MainPage(webapp2.RequestHandler):
             if not utilities.user_exists():
                 utilities.add_new_user(utilities.get_user())
 
-            renderer.render_main(self, utilities.get_logout_url(self))
+            my_user = utilities.get_my_user()
+
+            # set current path on login to root directory
+            my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
+            my_user.put()
+
+            renderer.render_main(self, utilities.get_logout_url(self), my_user.directories, utilities.get_current_directory(my_user).get().path)
 
         # if no user is logged in create login url
         else:
@@ -29,6 +37,16 @@ class MainPage(webapp2.RequestHandler):
 
         # get user data object from datastore of current user (logged in)
         my_user = utilities.get_my_user()
+
+        directory_name = self.request.get('value')
+        button_value = self.request.get('button')
+
+        if button_value == 'Add':
+            logging.debug(directory_name + button_value)
+            utilities.add_new_directory(directory_name, utilities.get_current_directory(my_user).id(), my_user)
+
+        self.redirect('/')
+
 
 # starts the web application and specifies the routing table
 app = webapp2.WSGIApplication(

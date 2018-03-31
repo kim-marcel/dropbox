@@ -8,3 +8,9 @@ class Directory(ndb.Model):
     parent_directory = ndb.KeyProperty()
     # Keys of all the files in this directory
     files = ndb.KeyProperty(repeated=True)
+    # name
+    name = ndb.StringProperty()
+    # path
+    path = ndb.StringProperty()
+    # all sub directories in this directory
+    directories = ndb.KeyProperty(repeated=True)
