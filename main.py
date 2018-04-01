@@ -24,7 +24,8 @@ class MainPage(webapp2.RequestHandler):
             my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
             my_user.put()
 
-            renderer.render_main(self, utilities.get_logout_url(self), my_user.directories, utilities.get_current_directory(my_user).get().path)
+            renderer.render_main(self, utilities.get_logout_url(self), my_user.directories,
+                                 utilities.get_current_directory(my_user).get().path)
 
         # if no user is logged in create login url
         else:
@@ -43,9 +44,9 @@ class MainPage(webapp2.RequestHandler):
 
         if button_value == 'Add':
             logging.debug(directory_name + button_value)
-            utilities.add_new_directory(directory_name, utilities.get_current_directory(my_user).id(), my_user)
+            utilities.add_new_directory(directory_name, utilities.get_current_directory(my_user), my_user)
 
-        self.redirect('/')
+            self.redirect('/')
 
 
 # starts the web application and specifies the routing table
