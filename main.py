@@ -23,7 +23,8 @@ class MainPage(webapp2.RequestHandler):
             directories_in_current_path = utilities.get_directories_in_current_path(my_user)
 
             renderer.render_main(self, utilities.get_logout_url(self), directories_in_current_path,
-                                 utilities.get_current_directory_key(my_user).get().path)
+                                 utilities.get_current_directory_key(my_user).get().path,
+                                 utilities.is_in_root_directory(my_user))
 
         # if no user is logged in create login url
         else:
@@ -56,6 +57,10 @@ class MainPage(webapp2.RequestHandler):
         elif button_value == 'Navigate':
             directory_name = self.request.get('directory_name')
             utilities.navigate_to_directory(directory_name, my_user)
+            self.redirect('/')
+
+        elif button_value == 'Up':
+            utilities.navigate_up(my_user)
             self.redirect('/')
 
 

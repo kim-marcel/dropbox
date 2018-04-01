@@ -12,7 +12,8 @@
         You are logged in as
         {{ user.email() }}</p>
 
-    <p>Add a new Directory to {{ current_path }}:</p>
+    <p>You are currently in: {{ current_path }}</p>
+    <p>Add a new Directory:</p>
     <form method="post" action="/">
         <input type="text" name="value">
         <input type="submit" name="button" value="Add">
@@ -32,7 +33,14 @@
     {% endfor %}
     {% endif %}
 
+    {% if is_not_in_root %}
     <br>
+    <form method="post" action="/">
+        <!-- navigate up button -->
+        <input type="submit" name="button" value="Up"/>
+    </form>
+    <br>
+    {% endif %}
 
     <a href="{{ url }}">
         <div class="button_element">

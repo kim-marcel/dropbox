@@ -106,16 +106,20 @@ def delete_directory(directory_name, my_user):
     directory_key.delete()
 
 
+def navigate_up(my_user):
+    if not is_in_root_directory(my_user):
+        parent_directory_key = get_parent_directory_key(my_user)
+        my_user.current_directory = parent_directory_key
+        my_user.put()
+
+
 def navigate_to_directory(directory_name, my_user):
     parent_directory_object = get_current_directory_key(my_user).get()
     directory_id = my_user.key.id() + get_path_for_directory(directory_name, parent_directory_object, my_user)
     directory_key = ndb.Key(Directory, directory_id)
 
-    logging.debug(directory_key)
-
     my_user.current_directory = directory_key
     my_user.put()
-    logging.debug(directory_name)
 
 
 def get_path_for_directory(name, parent_directory_object, my_user):
