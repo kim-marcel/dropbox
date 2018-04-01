@@ -20,12 +20,10 @@ class MainPage(webapp2.RequestHandler):
 
             my_user = utilities.get_my_user()
 
-            # set current path on login to root directory
-            my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
-            my_user.put()
+            directories_in_current_path = utilities.get_directories_in_current_path(my_user)
 
-            renderer.render_main(self, utilities.get_logout_url(self), my_user.directories,
-                                 utilities.get_current_directory(my_user).get().path)
+            renderer.render_main(self, utilities.get_logout_url(self), directories_in_current_path,
+                                 utilities.get_current_directory_key(my_user).get().path)
 
         # if no user is logged in create login url
         else:
@@ -39,13 +37,25 @@ class MainPage(webapp2.RequestHandler):
         # get user data object from datastore of current user (logged in)
         my_user = utilities.get_my_user()
 
-        directory_name = self.request.get('value')
         button_value = self.request.get('button')
 
         if button_value == 'Add':
+            directory_name = self.request.get('value')
             logging.debug(directory_name + button_value)
-            utilities.add_new_directory(directory_name, utilities.get_current_directory(my_user), my_user)
+            utilities.add_new_directory(directory_name, utilities.get_current_directory_key(my_user), my_user)
 
+            self.redirect('/')
+
+        elif button_value == 'Delete':
+            directory_name = self.request.get('directory_name')
+            logging.debug('Delete!!!' + directory_name)
+            utilities.delete_directory(directory_name, my_user)
+
+            self.redirect('/')
+
+        elif button_value == 'Navigate':
+            directory_name = self.request.get('directory_name')
+            utilities.navigate_to_directory(directory_name, my_user)
             self.redirect('/')
 
 

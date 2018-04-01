@@ -19,6 +19,10 @@ def get_my_user():
         return my_user_key.get()
 
 
+def get_directories_in_current_path(my_user):
+    return get_current_directory_key(my_user).get().directories
+
+
 def user_is_logged_in():
     return True if get_user() else False
 
@@ -30,8 +34,10 @@ def user_exists():
 
 def add_new_user(user):
     my_user = MyUser(id=user.user_id())
-    my_user.put()
     add_new_directory(None, None, my_user)
+    # set current path on first login to root directory
+    my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
+    my_user.put()
 
 
 def add_new_directory(name, parent_directory, my_user):
@@ -59,7 +65,7 @@ def add_root_directory(my_user):
 def add_directory(name, parent_directory_key, my_user):
     parent_directory_object = parent_directory_key.get()
 
-    path = get_path_for_new_directory(name, parent_directory_object, my_user)
+    path = get_path_for_directory(name, parent_directory_object, my_user)
 
     directory_id = my_user.key.id() + path
     directory = Directory(id=directory_id)
@@ -81,7 +87,38 @@ def add_directory(name, parent_directory_key, my_user):
         my_user.put()
 
 
-def get_path_for_new_directory(name, parent_directory_object, my_user):
+def delete_directory(directory_name, my_user):
+    # current directory is the parent directory of the one that will be deleted
+    parent_directory_object = get_current_directory_key(my_user).get()
+
+    directory_id = my_user.key.id() + get_path_for_directory(directory_name, parent_directory_object, my_user)
+    directory_key = ndb.Key(Directory, directory_id)
+
+    # Delete reference to this object from parent_directory
+    parent_directory_object.directories.remove(directory_key)
+    parent_directory_object.put()
+
+    # Delete reference from myuser
+    my_user.directories.remove(directory_key)
+    my_user.put()
+
+    # Delete directory object from datastore
+    directory_key.delete()
+
+
+def navigate_to_directory(directory_name, my_user):
+    parent_directory_object = get_current_directory_key(my_user).get()
+    directory_id = my_user.key.id() + get_path_for_directory(directory_name, parent_directory_object, my_user)
+    directory_key = ndb.Key(Directory, directory_id)
+
+    logging.debug(directory_key)
+
+    my_user.current_directory = directory_key
+    my_user.put()
+    logging.debug(directory_name)
+
+
+def get_path_for_directory(name, parent_directory_object, my_user):
     if is_in_root_directory(my_user):
         return parent_directory_object.path + name
     else:
@@ -90,18 +127,18 @@ def get_path_for_new_directory(name, parent_directory_object, my_user):
 
 # returns true if current directory is root directory
 def is_in_root_directory(my_user):
-    current_directory = get_current_directory(my_user).get()
+    current_directory = get_current_directory_key(my_user).get()
     return True if current_directory.parent_directory is None else False
 
 
 # returns key of current directory
-def get_current_directory(my_user):
+def get_current_directory_key(my_user):
     return my_user.current_directory
 
 
 # returns key of parent directory
-def get_parent_directory(my_user):
-    current_directory = get_current_directory(my_user)
+def get_parent_directory_key(my_user):
+    current_directory = get_current_directory_key(my_user)
     return current_directory.get().parent_directory
 
 
