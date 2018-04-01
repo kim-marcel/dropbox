@@ -19,6 +19,10 @@ def get_my_user():
         return my_user_key.get()
 
 
+def get_directories_in_current_path(my_user):
+    return get_current_directory_key(my_user).get().directories
+
+
 def user_is_logged_in():
     return True if get_user() else False
 
@@ -30,8 +34,10 @@ def user_exists():
 
 def add_new_user(user):
     my_user = MyUser(id=user.user_id())
-    my_user.put()
     add_new_directory(None, None, my_user)
+    # set current path on first login to root directory
+    my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
+    my_user.put()
 
 
 def add_new_directory(name, parent_directory, my_user):
@@ -98,6 +104,18 @@ def delete_directory(directory_name, my_user):
 
     # Delete directory object from datastore
     directory_key.delete()
+
+
+def navigate_to_directory(directory_name, my_user):
+    parent_directory_object = get_current_directory_key(my_user).get()
+    directory_id = my_user.key.id() + get_path_for_directory(directory_name, parent_directory_object, my_user)
+    directory_key = ndb.Key(Directory, directory_id)
+
+    logging.debug(directory_key)
+
+    my_user.current_directory = directory_key
+    my_user.put()
+    logging.debug(directory_name)
 
 
 def get_path_for_directory(name, parent_directory_object, my_user):

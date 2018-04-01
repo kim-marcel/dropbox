@@ -12,22 +12,23 @@
         You are logged in as
         {{ user.email() }}</p>
 
-    <p>Add a new Directory:</p>
+    <p>Add a new Directory to {{ current_path }}:</p>
     <form method="post" action="/">
         <input type="text" name="value">
         <input type="submit" name="button" value="Add">
     </form>
 
     {% if directories %}
-    These are your directories in {{ current_directory }}:<br>
+    These are your directories in {{ current_path }}:<br>
     {% for directory in directories %}
     <form method="post" action="/">
         {{directory.get().name}}
         <input type="hidden" name="directory_name" value="{{ directory.get().name }}"/>
+        <!-- navigate into this directory button -->
+        <input type="submit" name="button" value="Navigate"/>
         <!-- delete button -->
-        <input type="submit" class="button_delete" name="button" value="Delete"/>
+        <input type="submit" name="button" value="Delete"/>
     </form>
-    <br>
     {% endfor %}
     {% endif %}
 
