@@ -21,7 +21,13 @@
     {% if directories %}
     These are your directories in {{ current_directory }}:<br>
     {% for directory in directories %}
-    {{directory.get().name}}<br>
+    <form method="post" action="/">
+        {{directory.get().name}}
+        <input type="hidden" name="directory_name" value="{{ directory.get().name }}"/>
+        <!-- delete button -->
+        <input type="submit" class="button_delete" name="button" value="Delete"/>
+    </form>
+    <br>
     {% endfor %}
     {% endif %}
 
