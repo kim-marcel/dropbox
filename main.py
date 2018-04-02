@@ -1,9 +1,7 @@
 import webapp2
 import logging
-from google.appengine.ext import ndb
 import renderer
 import utilities
-from directory import Directory
 from uploadhandler import UploadHandler
 from google.appengine.ext import blobstore
 
@@ -68,6 +66,11 @@ class MainPage(webapp2.RequestHandler):
 
         elif button_value == 'Up':
             utilities.navigate_up(my_user)
+            self.redirect('/')
+
+        elif button_value == 'DeleteFile':
+            filename = self.request.get('file_name')
+            utilities.delete_file(filename, my_user)
             self.redirect('/')
 
 

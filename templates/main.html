@@ -36,7 +36,12 @@
     {% if files %}
     These are your files in {{ current_path }}:<br>
     {% for file in files %}
-        {{file.get().filename}}<br>
+    <form method="post" action="/">
+        {{file.get().filename}}
+        <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
+        <!-- delete button -->
+        <input type="submit" name="button" value="DeleteFile"/>
+    </form>
     {% endfor %}
     {% endif %}
 
