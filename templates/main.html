@@ -33,6 +33,16 @@
     {% endfor %}
     {% endif %}
 
+    {% if files %}
+    These are your files in {{ current_path }}:<br>
+    {% for file in files %}
+        {{file.get().filename}}<br>
+    {% endfor %}
+    {% endif %}
+
+    <br>
+    <br>
+
     {% if is_not_in_root %}
     <br>
     <form method="post" action="/">
@@ -41,6 +51,12 @@
     </form>
     <br>
     {% endif %}
+
+    <!-- form for uploading a file to the blobstore -->
+    <form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
+        Upload File: <input type="file" name="file"/><br/>
+        <input type="submit"/>
+    </form>
 
     <a href="{{ url }}">
         <div class="button_element">

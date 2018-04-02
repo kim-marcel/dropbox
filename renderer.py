@@ -15,13 +15,15 @@ def render_login(self, url):
     self.response.write(template.render(template_values))
 
 
-def render_main(self, url, directories, current_path, is_in_root):
+def render_main(self, url, directories, files, current_path, is_in_root, upload_url):
     template_values = {
         'url': url,
         'user': utilities.get_user(),
         'directories': directories,
+        'files': files,
         'current_path': current_path,
-        'is_not_in_root': not is_in_root
+        'is_not_in_root': not is_in_root,
+        'upload_url': upload_url
     }
 
     template = JINJA_ENVIRONMENT.get_template('/templates/main.html')
