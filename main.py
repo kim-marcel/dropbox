@@ -4,6 +4,8 @@ from google.appengine.ext import ndb
 import renderer
 import utilities
 from directory import Directory
+from uploadhandler import UploadHandler
+from google.appengine.ext import blobstore
 
 
 class MainPage(webapp2.RequestHandler):
@@ -21,10 +23,15 @@ class MainPage(webapp2.RequestHandler):
             my_user = utilities.get_my_user()
 
             directories_in_current_path = utilities.get_directories_in_current_path(my_user)
+            files_in_current_path = utilities.get_files_in_current_path(my_user)
 
-            renderer.render_main(self, utilities.get_logout_url(self), directories_in_current_path,
+            renderer.render_main(self,
+                                 utilities.get_logout_url(self),
+                                 directories_in_current_path,
+                                 files_in_current_path,
                                  utilities.get_current_directory_key(my_user).get().path,
-                                 utilities.is_in_root_directory(my_user))
+                                 utilities.is_in_root_directory(my_user),
+                                 blobstore.create_upload_url('/upload'))
 
         # if no user is logged in create login url
         else:
@@ -68,4 +75,5 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication(
     [
         ('/', MainPage),
+        ('/upload', UploadHandler)
     ], debug=True)

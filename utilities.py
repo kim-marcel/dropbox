@@ -23,6 +23,10 @@ def get_directories_in_current_path(my_user):
     return get_current_directory_key(my_user).get().directories
 
 
+def get_files_in_current_path(my_user):
+    return get_current_directory_key(my_user).get().files
+
+
 def user_is_logged_in():
     return True if get_user() else False
 
