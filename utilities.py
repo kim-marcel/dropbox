@@ -2,8 +2,9 @@ from google.appengine.ext import ndb
 from google.appengine.api import users
 from myuser import MyUser
 from directory import Directory
+from file import File
+from google.appengine.ext import blobstore
 import logging
-import re  # regex
 
 
 # Get user from this page
@@ -108,6 +109,23 @@ def delete_directory(directory_name, my_user):
 
     # Delete directory object from datastore
     directory_key.delete()
+
+
+def delete_file(filename, my_user):
+    parent_directory_object = get_current_directory_key(my_user).get()
+    file_path = get_path_for_directory(filename, parent_directory_object, my_user)
+    file_id = my_user.key.id() + file_path
+    file_key = ndb.Key(File, file_id)
+
+    # Delete file key from directory
+    parent_directory_object.files.remove(file_key)
+    parent_directory_object.put()
+
+    # Delete actual file from blobstore
+    blobstore.delete(file_key.get().blob)
+
+    # Delete file object
+    file_key.delete()
 
 
 def navigate_up(my_user):
