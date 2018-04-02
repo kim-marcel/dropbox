@@ -42,6 +42,10 @@
         <!-- delete button -->
         <input type="submit" name="button" value="DeleteFile"/>
     </form>
+    <form action="/download" method="get">
+        <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
+        <input type="submit" name="button" value="Download"/>
+    </form>
     {% endfor %}
     {% endif %}
 

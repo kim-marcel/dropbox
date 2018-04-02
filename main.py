@@ -3,6 +3,7 @@ import logging
 import renderer
 import utilities
 from uploadhandler import UploadHandler
+from downloadhandler import DownloadHandler
 from google.appengine.ext import blobstore
 
 
@@ -78,5 +79,6 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication(
     [
         ('/', MainPage),
-        ('/upload', UploadHandler)
+        ('/upload', UploadHandler),
+        ('/download', DownloadHandler)
     ], debug=True)
