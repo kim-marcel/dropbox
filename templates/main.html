@@ -20,45 +20,45 @@
     </form>
 
     {% if directories %}
-    These are your directories in {{ current_path }}:<br>
-    {% for directory in directories %}
-    <form method="post" action="/">
-        {{directory.get().name}}
-        <input type="hidden" name="directory_name" value="{{ directory.get().name }}"/>
-        <!-- navigate into this directory button -->
-        <input type="submit" name="button" value="Navigate"/>
-        <!-- delete button -->
-        <input type="submit" name="button" value="Delete"/>
-    </form>
-    {% endfor %}
+        These are your directories in {{ current_path }}:<br>
+        {% for directory in directories %}
+            <form method="post" action="/">
+                {{ directory.get().name }}
+                <input type="hidden" name="directory_name" value="{{ directory.get().name }}"/>
+                <!-- navigate into this directory button -->
+                <input type="submit" name="button" value="Navigate"/>
+                <!-- delete button -->
+                <input type="submit" name="button" value="Delete"/>
+            </form>
+        {% endfor %}
     {% endif %}
 
     {% if files %}
-    These are your files in {{ current_path }}:<br>
-    {% for file in files %}
-    <form method="post" action="/">
-        {{file.get().filename}}
-        <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
-        <!-- delete button -->
-        <input type="submit" name="button" value="Delete"/>
-    </form>
-    <form action="/download" method="get">
-        <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
-        <input type="submit" name="button" value="Download"/>
-    </form>
-    {% endfor %}
+        These are your files in {{ current_path }}:<br>
+        {% for file in files %}
+            <form method="post" action="/">
+                {{ file.get().filename }}
+                <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
+                <!-- delete button -->
+                <input type="submit" name="button" value="Delete"/>
+            </form>
+            <form action="/download" method="get">
+                <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
+                <input type="submit" name="button" value="Download"/>
+            </form>
+        {% endfor %}
     {% endif %}
 
     <br>
     <br>
 
     {% if is_not_in_root %}
-    <br>
-    <form method="post" action="/">
-        <!-- navigate up button -->
-        <input type="submit" name="button" value="Up"/>
-    </form>
-    <br>
+        <br>
+        <form method="post" action="/">
+            <!-- navigate up button -->
+            <input type="submit" name="button" value="Up"/>
+        </form>
+        <br>
     {% endif %}
 
     <!-- form for uploading a file to the blobstore -->
