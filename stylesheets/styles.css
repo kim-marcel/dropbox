@@ -1,0 +1,158 @@
+* {
+    box-sizing: border-box
+}
+
+body {
+    background-image: url("/../images/background.png");
+    font-family: 'Raleway'
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    border-bottom: 1px solid #bbb;
+    text-align: left;
+    font-size: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.header {
+    background-color: #484d4f;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bolder;
+    color: #f4fcff;
+    margin: auto;
+    width: 60%;
+    overflow: hidden;
+    border: 0.5px solid #434647;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+}
+
+.header_login {
+    background-color: #484d4f;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bolder;
+    color: #f4fcff;
+    margin: auto;
+    width: 30%;
+    overflow: hidden;
+    border: 0.5px solid #434647;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    top: 0px;
+}
+
+.content_login {
+    font-size: 20px;
+    background-color: #efefef;
+    margin: auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 30%;
+    padding: 10px;
+    min-height: 27%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.sub-headline {
+    font-size: 15px;
+}
+
+.content {
+    font-size: 20px;
+    background-color: #efefef;
+    margin: auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 60%;
+    padding: 10px;
+    min-height: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.button_element {
+    color: #f4fcff;
+    font-size: 16px;
+    text-align: center;
+    background-color: #36393a;
+    margin: auto;
+    width: 100%;
+    border: 0.5px solid #434647;
+    padding: 15px;
+
+}
+
+.button_element_login {
+    color: #f4fcff;
+    font-size: 16px;
+    text-align: center;
+    background-color: #50b0b2;
+    margin: auto;
+    width: 100%;
+    padding: 15px;
+}
+
+.button {
+    background-color: #50b0b2;
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 100%;
+    float: right;
+    cursor: pointer;
+}
+
+.button_delete {
+    background-color: #e0797a;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.text_input {
+    width: 100%;
+    padding: 15px 5px;
+    margin-top: 2px;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.table_data {
+    border-bottom: 1px solid #bbb;
+}
+
+.anagram_table_data_sortedWord {
+    border-bottom: 1px solid #bbb;
+    width: 25%;
+}
+
+#delete_row {
+    width: 15%;
+    border-bottom: 1px solid #bbb;
+}
+
+#button_row {
+    width: 30%;
+    border-bottom: 0px;
+}
