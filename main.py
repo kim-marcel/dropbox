@@ -19,17 +19,15 @@ class MainPage(webapp2.RequestHandler):
             if not utilities.user_exists():
                 utilities.add_new_user(utilities.get_user())
 
-            my_user = utilities.get_my_user()
-
-            directories_in_current_path = utilities.get_directories_in_current_path(my_user)
-            files_in_current_path = utilities.get_files_in_current_path(my_user)
+            directories_in_current_path = utilities.get_directories_in_current_path()
+            files_in_current_path = utilities.get_files_in_current_path()
 
             renderer.render_main(self,
                                  utilities.get_logout_url(self),
                                  directories_in_current_path,
                                  files_in_current_path,
-                                 utilities.get_current_directory_key(my_user).get().path,
-                                 utilities.is_in_root_directory(my_user),
+                                 utilities.get_current_directory_key().get().path,
+                                 utilities.is_in_root_directory(),
                                  blobstore.create_upload_url('/upload'))
 
         # if no user is logged in create login url
@@ -41,37 +39,31 @@ class MainPage(webapp2.RequestHandler):
         logging.debug("POST")
         self.response.headers['Content-Type'] = 'text/html'
 
-        # get user data object from datastore of current user (logged in)
-        my_user = utilities.get_my_user()
-
         button_value = self.request.get('button')
 
         if button_value == 'Add':
             directory_name = self.request.get('value')
-            logging.debug(directory_name + button_value)
-            utilities.add_new_directory(directory_name, utilities.get_current_directory_key(my_user), my_user)
+            utilities.add_new_directory(directory_name, utilities.get_current_directory_key())
 
             self.redirect('/')
 
         elif button_value == 'Delete':
             directory_name = self.request.get('directory_name')
-            logging.debug('Delete!!!' + directory_name)
-            utilities.delete_directory(directory_name, my_user)
-
+            utilities.delete_directory(directory_name)
             self.redirect('/')
 
         elif button_value == 'Navigate':
             directory_name = self.request.get('directory_name')
-            utilities.navigate_to_directory(directory_name, my_user)
+            utilities.navigate_to_directory(directory_name)
             self.redirect('/')
 
         elif button_value == 'Up':
-            utilities.navigate_up(my_user)
+            utilities.navigate_up()
             self.redirect('/')
 
         elif button_value == 'DeleteFile':
             filename = self.request.get('file_name')
-            utilities.delete_file(filename, my_user)
+            utilities.delete_file(filename)
             self.redirect('/')
 
 
