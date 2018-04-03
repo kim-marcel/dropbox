@@ -43,8 +43,7 @@ class MainPage(webapp2.RequestHandler):
 
         if button_value == 'Add':
             directory_name = self.request.get('value')
-            utilities.add_new_directory(directory_name, utilities.get_current_directory_key())
-
+            utilities.add_directory(directory_name, utilities.get_current_directory_key())
             self.redirect('/')
 
         elif button_value == 'Delete':

@@ -49,21 +49,10 @@ def user_exists():
 
 def add_new_user(user):
     my_user = MyUser(id=user.user_id())
-    add_new_directory(None, None)
+    add_root_directory(my_user)
     # set current path on first login to root directory
     my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
     my_user.put()
-
-
-def add_new_directory(name, parent_directory):
-    my_user = get_my_user()
-
-    if parent_directory is None:
-        # the root-directory is being created
-        add_root_directory(my_user)
-    else:
-        # a regular directory gets created
-        add_directory(name, parent_directory, my_user)
 
 
 def add_root_directory(my_user):
@@ -79,7 +68,9 @@ def add_root_directory(my_user):
     my_user.put()
 
 
-def add_directory(name, parent_directory_key, my_user):
+def add_directory(name, parent_directory_key):
+    my_user = get_my_user()
+
     parent_directory_object = parent_directory_key.get()
 
     path = get_path(name, parent_directory_object)
