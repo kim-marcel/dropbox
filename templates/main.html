@@ -29,19 +29,66 @@
 <div class="content">
 
     <table>
-        <tr>
-            <td class="table_data">Upload file:</td>
-            <!-- form for uploading a file to the blobstore -->
-            <form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
-                <td class="table_data"><input type="file" name="file"></td>
-                <td class="table_data"><input type="submit" class="button" value="Upload"></td>
-            </form>
-        </tr>
+
+        {% if is_not_in_root %}
+            <tr>
+                <th colspan="3"><i class="material-icons">folder_open</i>: {{ current_path }}</th>
+
+                <form method="post" action="/">
+                    <!-- navigate up button -->
+                    <th colspan="1"><input type="submit" name="button" class="button" value="Up"/></th>
+                </form>
+            </tr>
+
+        {% else %}
+            <tr>
+                <th colspan="4"><i class="material-icons">folder_open</i>: {{ current_path }}</th>
+            </tr>
+        {% endif %}
+
+
+
+        {% if directories %}
+            {% for directory in directories %}
+                <tr>
+                    <form method="post" action="/">
+                        <td class="table_data"><i class="material-icons">folder</i></td>
+                        <td class="table_data">{{ directory.get().name }}</td>
+                        <input type="hidden" name="directory_name" value="{{ directory.get().name }}"/>
+                        <!-- navigate into this directory button -->
+                        <td class="table_data"><input type="submit" name="button" class="button"
+                                                      value="Navigate"/></td>
+                        <!-- delete button -->
+                        <td class="table_data" id="delete_row"><input type="submit" name="button"
+                                                                      class="button_delete" value="Delete"/>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+        {% if files %}
+            {% for file in files %}
+                <tr>
+                    <td class="table_data"><i class="material-icons">insert_drive_file</i></td>
+                    <td class="table_data">{{ file.get().filename }}</td>
+                    <form action="/download" method="get">
+                        <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
+                        <td class="table_data"><input type="submit" name="button" class="button" value="Download"/></td>
+                    </form>
+                    <form method="post" action="/">
+                        <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
+                        <!-- delete button -->
+                        <td class="table_data" id="delete_row"><input type="submit" name="button" class="button_delete"
+                                                                      value="DeleteFile"/></td>
+                    </form>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
         <tr>
             <form method="post" action="/">
-                <td class="table_data" colspan="2"><input type="text" class="text_input" name="value"
-                                              placeholder="Add a new directory..."/></td>
-
+                <td class="table_data" colspan="3"><input type="text" class="text_input" name="value" placeholder="Add a new directory..."/></td>
                 <td class="table_data"><input type="submit" class="button" name="button" value="Add"/></td>
             </form>
         </tr>
