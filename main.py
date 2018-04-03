@@ -48,7 +48,13 @@ class MainPage(webapp2.RequestHandler):
 
         elif button_value == 'Delete':
             directory_name = self.request.get('directory_name')
-            utilities.delete_directory(directory_name)
+            filename = self.request.get('file_name')
+
+            if directory_name == "":
+                utilities.delete_file(filename)
+            else:
+                utilities.delete_directory(directory_name)
+
             self.redirect('/')
 
         elif button_value == 'Navigate':
@@ -58,11 +64,6 @@ class MainPage(webapp2.RequestHandler):
 
         elif button_value == 'Up':
             utilities.navigate_up()
-            self.redirect('/')
-
-        elif button_value == 'DeleteFile':
-            filename = self.request.get('file_name')
-            utilities.delete_file(filename)
             self.redirect('/')
 
 
