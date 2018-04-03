@@ -29,6 +29,27 @@
 <div class="content">
 
     <table>
+        <tr>
+            <td class="table_data">Upload file:</td>
+            <!-- form for uploading a file to the blobstore -->
+            <form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
+                <td class="table_data"><input type="file" name="file"></td>
+                <td class="table_data"><input type="submit" class="button" value="Upload"></td>
+            </form>
+        </tr>
+        <tr>
+            <form method="post" action="/">
+                <td class="table_data" colspan="2"><input type="text" class="text_input" name="value"
+                                              placeholder="Add a new directory..."/></td>
+
+                <td class="table_data"><input type="submit" class="button" name="button" value="Add"/></td>
+            </form>
+        </tr>
+    </table>
+
+    <br>
+
+    <table>
 
         {% if is_not_in_root %}
             <tr>
@@ -36,7 +57,7 @@
 
                 <form method="post" action="/">
                     <!-- navigate up button -->
-                    <th colspan="1"><input type="submit" name="button" class="button" value="Up"/></th>
+                    <td colspan="1" class="table_data"><input type="submit" name="button" class="button" value="Up"/></td>
                 </form>
             </tr>
 
@@ -80,30 +101,12 @@
                         <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
                         <!-- delete button -->
                         <td class="table_data" id="delete_row"><input type="submit" name="button" class="button_delete"
-                                                                      value="DeleteFile"/></td>
+                                                                      value="Delete"/></td>
                     </form>
                 </tr>
             {% endfor %}
         {% endif %}
-
-        <tr>
-            <form method="post" action="/">
-                <td class="table_data" colspan="3"><input type="text" class="text_input" name="value" placeholder="Add a new directory..."/></td>
-
-                <td class="table_data"><input type="submit" class="button" name="button" value="Add"/></td>
-            </form>
-        </tr>
     </table>
-
-    <br>
-    <br>
-
-    <!-- form for uploading a file to the blobstore -->
-    <form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
-        Upload File: <br>
-        <input type="file" name="file" class="button">
-        <input type="submit" class="button">
-    </form>
 
 </div>
 </body>
