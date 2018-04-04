@@ -16,6 +16,9 @@ def render_login(self, url):
 
 
 def render_main(self, url, directories, files, current_path, is_in_root, upload_url):
+    directories.sort()
+    files.sort()
+
     template_values = {
         'url': url,
         'user': utilities.get_user(),
