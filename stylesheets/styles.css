@@ -3,8 +3,8 @@
 }
 
 body {
-    background-image: url("/../images/background.png");
-    font-family: 'Raleway'
+    background-image: url("/images/background.png");
+    font-family: 'Raleway', Helvetica Neue, SansSerif, serif
 }
 
 table {
@@ -18,7 +18,13 @@ th {
 }
 
 a {
+    text-decoration: None;
+    color: black;
+}
+
+a:visited {
     text-decoration: none;
+    color: black;
 }
 
 .header {
@@ -149,6 +155,11 @@ a {
 
 #delete_row {
     width: 15%;
+    border-bottom: 1px solid #bbb;
+}
+
+#icon_row {
+    width: 3%;
     border-bottom: 1px solid #bbb;
 }
 

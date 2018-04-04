@@ -19,6 +19,18 @@ class MainPage(webapp2.RequestHandler):
             if not utilities.user_exists():
                 utilities.add_new_user(utilities.get_user())
 
+            directory_name = self.request.get('directory_name')
+
+            # Navigate to a directory sent in the url vis get request
+            if directory_name != "":
+                if directory_name == "../":
+                    # navigate up
+                    utilities.navigate_up()
+                else:
+                    utilities.navigate_to_directory(directory_name)
+
+                self.redirect('/')
+
             directories_in_current_path = utilities.get_directories_in_current_path()
             files_in_current_path = utilities.get_files_in_current_path()
 
@@ -43,7 +55,10 @@ class MainPage(webapp2.RequestHandler):
 
         if button_value == 'Add':
             directory_name = self.request.get('value')
-            utilities.add_directory(directory_name, utilities.get_current_directory_key())
+            if directory_name is None or directory_name == "":
+                pass
+            else:
+                utilities.add_directory(directory_name, utilities.get_current_directory_key())
             self.redirect('/')
 
         elif button_value == 'Delete':
@@ -55,11 +70,6 @@ class MainPage(webapp2.RequestHandler):
             else:
                 utilities.delete_directory(directory_name)
 
-            self.redirect('/')
-
-        elif button_value == 'Navigate':
-            directory_name = self.request.get('directory_name')
-            utilities.navigate_to_directory(directory_name)
             self.redirect('/')
 
         elif button_value == 'Up':
