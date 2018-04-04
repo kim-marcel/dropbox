@@ -113,7 +113,7 @@ def add_file(upload, filename):
     else:
         # Delete uploaded file from the blobstore
         blobstore.delete(upload.key())
-        logging.debug('A file with this name already exists!')
+        logging.debug('A file with this name already exists in this directory!')
 
 
 def delete_directory(directory_name):
@@ -124,17 +124,19 @@ def delete_directory(directory_name):
 
     directory_id = my_user.key.id() + get_path(directory_name, parent_directory_object)
     directory_key = ndb.Key(Directory, directory_id)
+    directory_object = directory_key.get()
 
-    # Delete reference to this object from parent_directory
-    parent_directory_object.directories.remove(directory_key)
-    parent_directory_object.put()
+    if not directory_object.files and not directory_object.directories:
+        # Delete reference to this object from parent_directory
+        parent_directory_object.directories.remove(directory_key)
+        parent_directory_object.put()
 
-    # Delete reference from myuser
-    my_user.directories.remove(directory_key)
-    my_user.put()
+        # Delete reference from myuser
+        my_user.directories.remove(directory_key)
+        my_user.put()
 
-    # Delete directory object from datastore
-    directory_key.delete()
+        # Delete directory object from datastore
+        directory_key.delete()
 
 
 def delete_file(filename):
