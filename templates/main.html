@@ -44,7 +44,7 @@
                     <input type="file" name="file" id="file" class="input_file">
                     <label for="file">Choose a file...</label>
                 </td>
-                <td id="icon_row">
+                <td class="icon_row">
                     <button type="submit" class="button" value="Upload">
                         <i class="material-icons">file_upload</i>
                     </button>
@@ -59,7 +59,7 @@
                     <input type="text" class="text_input" name="value" placeholder="Add a new directory..."/>
                 </td>
 
-                <td id="icon_row">
+                <td class="icon_row">
                     <button type="submit" class="button" name="button" value="Add">
                         <i class="material-icons">add</i>
                     </button>
@@ -75,7 +75,7 @@
         {% if is_not_in_root %}
             <tr>
                 <!-- icon -->
-                <th id="icon_row">
+                <th class="icon_row">
                     <i class="material-icons">folder_open</i>
                 </th>
 
@@ -85,7 +85,7 @@
                 </th>
 
                 <!-- navigate up link -->
-                <th id="icon_row">
+                <th class="icon_row">
                     <a href="/?directory_name=../" class="button_back">
                         <i class="material-icons">keyboard_arrow_left</i>
                     </a>
@@ -96,7 +96,7 @@
         {% else %}
             <tr>
                 <!-- icon -->
-                <th id="icon_row">
+                <th class="icon_row">
                     <i class="material-icons" style="padding-top: 7px; padding-bottom: 7px">folder_open</i>
                 </th>
 
@@ -113,7 +113,7 @@
             {% for directory in directories %}
                 <tr class="content_table_row">
                     <!-- icon -->
-                    <td class="table_data" id="icon_row">
+                    <td class="table_data icon_row">
                         <a href="/?directory_name={{ directory.get().name }}">
                             <i class="material-icons">folder</i>
                         </a>
@@ -127,7 +127,7 @@
                     </td>
 
                     <!-- delete button -->
-                    <td class="table_data" id="icon_row">
+                    <td class="table_data icon_row">
                         <form method="post" action="/" style="margin: 0px;">
                             <input type="hidden" name="directory_name" value="{{ directory.get().name }}"/>
                             <button type="submit" name="button" class="button_delete" value="Delete">
@@ -144,7 +144,7 @@
             {% for file in files %}
                 <tr class="content_table_row">
                     <!-- icon -->
-                    <td class="table_data" id="icon_row">
+                    <td class="table_data icon_row">
                         <a href="/download?file_name={{ file.get().filename }}">
                             <i class="material-icons">insert_drive_file</i>
                         </a>
@@ -158,7 +158,7 @@
                     </td>
 
                     <!-- delete button -->
-                    <td class="table_data" id="icon_row">
+                    <td class="table_data icon_row">
                         <form method="post" action="/" style="margin: 0px;">
                             <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
                             <button type="submit" name="button" class="button_delete" value="Delete">

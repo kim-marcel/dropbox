@@ -8,26 +8,7 @@ body {
     font-family: 'Questrial', Helvetica Neue, SansSerif, serif;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th {
-    border-bottom: 1px solid #9c9c9c;
-    border-top: 1px solid #9c9c9c;
-    text-align: left;
-    font-size: 16px;
-    background-color: rgb(217, 226, 230);
-    color: #34393f;
-}
-
-td {
-    padding: 0px;
-    border: 0px;
-    margin: 0px;
-}
-
+/*********** LINKS ***********/
 a {
     text-decoration: None;
     color: #34393f;
@@ -38,8 +19,32 @@ a:visited {
     color: #34393f;
 }
 
-.content_table_row:focus, .content_table_row:hover {
-    background-color: rgb(223, 223, 223);
+/*********** ELEMENTS ***********/
+.header_login {
+    background-color: #34393f;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bolder;
+    color: #f4fcff;
+    margin: auto;
+    width: 30%;
+    overflow: hidden;
+    border: 0.5px solid #434647;
+    padding: 10px;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    top: 0px;
+}
+
+.content_login {
+    font-size: 20px;
+    background-color: #efefef;
+    margin: auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 30%;
+    padding: 10px;
+    min-height: 27%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .header {
@@ -59,26 +64,6 @@ a:visited {
     top: 0px;
 }
 
-.sub-headline {
-    font-size: 15px;
-    color: #1baea9;
-}
-
-.header_login {
-    background-color: #34393f;
-    text-align: center;
-    font-size: 25px;
-    font-weight: bolder;
-    color: #f4fcff;
-    margin: auto;
-    width: 30%;
-    overflow: hidden;
-    border: 0.5px solid #434647;
-    padding: 10px;
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    top: 0px;
-}
-
 .content {
     font-size: 20px;
     background-color: rgb(239, 239, 239);
@@ -91,18 +76,66 @@ a:visited {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.content_login {
-    font-size: 20px;
-    background-color: #efefef;
-    margin: auto;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    width: 30%;
-    padding: 10px;
-    min-height: 27%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+/* mobile devices */
+@media only screen and (max-width: 768px) {
+    .header_login {
+        background-color: #34393f;
+        text-align: center;
+        font-size: 25px;
+        font-weight: bolder;
+        color: #f4fcff;
+        margin: auto;
+        width: 100%;
+        overflow: hidden;
+        border: 0.5px solid #434647;
+        padding: 10px;
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        top: 0px;
+    }
+
+    .content_login {
+        font-size: 20px;
+        background-color: #efefef;
+        margin: auto;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        width: 100%;
+        padding: 10px;
+        min-height: 27%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .header {
+        background-color: #34393f;
+        text-align: center;
+        font-size: 50px;
+        font-weight: bolder;
+        color: #fff;
+        margin: auto;
+        width: 100%;
+        overflow: hidden;
+        border: 0.5px solid #434647;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0px;
+    }
+
+    .content {
+        font-size: 20px;
+        background-color: rgb(239, 239, 239);
+        margin: auto;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        width: 100%;
+        padding: 10px;
+        min-height: 100%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
 }
 
+/*********** INPUT ***********/
 .input_file {
     width: 0.1px;
     height: 0.1px;
@@ -139,19 +172,34 @@ a:visited {
     font-family: 'Questrial';
 }
 
+.text_input:focus, .text_input:hover {
+    background-color: #456a86;
+    color: #fff;
+}
+
 .text_input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #456a86;
     opacity: 1; /* Firefox */
 }
 
-.text_input:focus, .text_input:hover{
-    background-color: #456a86;
-    color: #fff;
-}
-
 .text_input:focus::placeholder, .text_input:hover::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: rgba(255, 255, 255, 0.56);
     opacity: 1; /* Firefox */
+}
+
+/*********** BUTTON-ELEMENTS ***********/
+.button_element_login {
+    color: #f4fcff;
+    font-size: 16px;
+    text-align: center;
+    background-color: #1baea9;
+    margin: auto;
+    width: 100%;
+    padding: 15px;
+}
+
+.button_element_login:focus, .button_element_login:hover {
+    background-color: #1a837e;
 }
 
 .button_element_logout {
@@ -166,25 +214,12 @@ a:visited {
     padding-right: 20px;
 }
 
-.button_element_logout:focus, .button_element_logout:hover{
+.button_element_logout:focus, .button_element_logout:hover {
     background-color: #fff;
     color: #484d4f;
 }
 
-.button_element_login {
-    color: #f4fcff;
-    font-size: 16px;
-    text-align: center;
-    background-color: #1baea9;
-    margin: auto;
-    width: 100%;
-    padding: 15px;
-}
-
-.button_element_login:focus, .button_element_login:hover{
-    background-color: #1a837e;
-}
-
+/*********** BUTTONS ***********/
 .button {
     color: #fff;
     background: #1baea9;
@@ -199,7 +234,7 @@ a:visited {
     cursor: pointer;
 }
 
-.button:focus, .button:hover{
+.button:focus, .button:hover {
     background-color: #1a837e;
     border: 1px solid #1a837e;
     color: #fff;
@@ -237,6 +272,29 @@ a:visited {
     color: rgba(0, 0, 0, 0.54);
 }
 
+/*********** TABLES ***********/
+table {
+    width: 100%;
+    border-collapse: collapse;
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
+th {
+    border-bottom: 1px solid #9c9c9c;
+    border-top: 1px solid #9c9c9c;
+    text-align: left;
+    font-size: 16px;
+    background-color: rgb(217, 226, 230);
+    color: #34393f;
+}
+
+td {
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+}
+
 .table_link {
     display: block;
     width: 100%;
@@ -247,11 +305,18 @@ a:visited {
     border-bottom: 1px solid #c6c6c6;
 }
 
-#icon_row {
+.content_table_row:focus, .content_table_row:hover {
+    background-color: rgb(223, 223, 223);
+}
+
+.icon_row {
     width: 3%;
     padding: 3px;
 }
 
-#button_row {
-    width: 5%;
+/*********** HEADLINES ***********/
+.sub-headline {
+    font-size: 15px;
+    color: #1baea9;
 }
+
