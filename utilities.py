@@ -5,6 +5,7 @@ from directory import Directory
 from file import File
 from google.appengine.ext import blobstore
 import logging
+import re
 
 
 # Get user from this page
@@ -194,7 +195,6 @@ def is_in_root_directory():
 # returns key of current directory
 def get_current_directory_key():
     my_user = get_my_user()
-
     return my_user.current_directory
 
 
@@ -202,6 +202,11 @@ def get_current_directory_key():
 def get_parent_directory_key():
     current_directory = get_current_directory_key()
     return current_directory.get().parent_directory
+
+
+# Remove all '/' from the directory name
+def prepare_directory_name(directory_name):
+    return re.sub(r'/', '', directory_name)
 
 
 def get_login_url(main_page):

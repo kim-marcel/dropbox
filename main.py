@@ -55,6 +55,9 @@ class MainPage(webapp2.RequestHandler):
 
         if button_value == 'Add':
             directory_name = self.request.get('value')
+
+            directory_name = utilities.prepare_directory_name(directory_name)
+
             if directory_name is None or directory_name == "":
                 pass
             else:
