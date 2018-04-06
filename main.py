@@ -14,31 +14,31 @@ class MainPage(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
 
         # check whether user is logged in
-        if utilities.user_is_logged_in():
+        if utilities.is_user_logged_in():
             # if myuser object is None --> No user with key found --> new user --> make new user in datastore
             if not utilities.user_exists():
                 utilities.add_new_user(utilities.get_user())
 
             directory_name = self.request.get('directory_name')
 
-            # Navigate to a directory sent in the url vis get request
+            # Navigate to a directory sent in the url via get request
             if directory_name != "":
-                if directory_name == "../":
-                    # navigate up
-                    utilities.navigate_up()
-                else:
-                    utilities.navigate_to_directory(directory_name)
-
+                utilities.navigate(directory_name)
                 self.redirect('/')
 
+            # get all directories and files in the current path
             directories_in_current_path = utilities.get_directories_in_current_path()
             files_in_current_path = utilities.get_files_in_current_path()
+
+            # sort all directories and files alphabetically
+            directories_in_current_path = utilities.sort_list(directories_in_current_path)
+            files_in_current_path = utilities.sort_list(files_in_current_path)
 
             renderer.render_main(self,
                                  utilities.get_logout_url(self),
                                  directories_in_current_path,
                                  files_in_current_path,
-                                 utilities.get_current_directory_key().get().path,
+                                 utilities.get_current_directory_object().path,
                                  utilities.is_in_root_directory(),
                                  blobstore.create_upload_url('/upload'))
 
@@ -58,18 +58,16 @@ class MainPage(webapp2.RequestHandler):
 
             directory_name = utilities.prepare_directory_name(directory_name)
 
-            if directory_name is None or directory_name == "":
-                pass
-            else:
+            if not (directory_name is None or directory_name == ""):
                 utilities.add_directory(directory_name, utilities.get_current_directory_key())
             self.redirect('/')
 
         elif button_value == 'Delete':
             directory_name = self.request.get('directory_name')
-            filename = self.request.get('file_name')
+            file_name = self.request.get('file_name')
 
             if directory_name == "":
-                utilities.delete_file(filename)
+                utilities.delete_file(file_name)
             else:
                 utilities.delete_directory(directory_name)
 

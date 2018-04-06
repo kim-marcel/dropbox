@@ -22,24 +22,24 @@ def get_my_user():
 
 
 def get_directories_in_current_path():
-    return get_current_directory_key().get().directories
+    return get_current_directory_object().directories
 
 
 def get_files_in_current_path():
-    return get_current_directory_key().get().files
+    return get_current_directory_object().files
 
 
 def get_file_object(filename):
     my_user = get_my_user()
 
-    parent_directory_object = get_current_directory_key().get()
+    parent_directory_object = get_current_directory_object()
     file_path = get_path(filename, parent_directory_object)
     file_id = my_user.key.id() + file_path
     file_key = ndb.Key(File, file_id)
     return file_key.get()
 
 
-def user_is_logged_in():
+def is_user_logged_in():
     return True if get_user() else False
 
 
@@ -80,7 +80,7 @@ def add_directory(name, parent_directory_key):
     directory = Directory(id=directory_id)
 
     # check if directory already exists in this path
-    if directory.key not in my_user.directories:
+    if exists(directory.key, parent_directory_object.directories):
         # Add key to parent directory
         parent_directory_object.directories.append(directory.key)
         parent_directory_object.put()
@@ -91,20 +91,16 @@ def add_directory(name, parent_directory_key):
         directory.path = path
         directory.put()
 
-        # Add key of this directory to user object
-        my_user.directories.append(directory.key)
-        my_user.put()
-
 
 def add_file(upload, filename):
     my_user = get_my_user()
-    current_directory_object = get_current_directory_key().get()
+    current_directory_object = get_current_directory_object()
     file_id = my_user.key.id() + get_path(filename, current_directory_object)
     file_key = ndb.Key(File, file_id)
 
-    if file_key not in current_directory_object.files:
+    if exists(file_key, current_directory_object.files):
         file_object = File(id=file_id)
-        file_object.filename = filename
+        file_object.name = filename
         file_object.blob = upload.key()
         file_object.put()
 
@@ -121,20 +117,16 @@ def delete_directory(directory_name):
     my_user = get_my_user()
 
     # current directory is the parent directory of the one that will be deleted
-    parent_directory_object = get_current_directory_key().get()
+    parent_directory_object = get_current_directory_object()
 
     directory_id = my_user.key.id() + get_path(directory_name, parent_directory_object)
     directory_key = ndb.Key(Directory, directory_id)
     directory_object = directory_key.get()
 
-    if not directory_object.files and not directory_object.directories:
+    if is_directory_empty(directory_object):
         # Delete reference to this object from parent_directory
         parent_directory_object.directories.remove(directory_key)
         parent_directory_object.put()
-
-        # Delete reference from myuser
-        my_user.directories.remove(directory_key)
-        my_user.put()
 
         # Delete directory object from datastore
         directory_key.delete()
@@ -143,7 +135,7 @@ def delete_directory(directory_name):
 def delete_file(filename):
     my_user = get_my_user()
 
-    parent_directory_object = get_current_directory_key().get()
+    parent_directory_object = get_current_directory_object()
     file_path = get_path(filename, parent_directory_object)
     file_id = my_user.key.id() + file_path
     file_key = ndb.Key(File, file_id)
@@ -159,6 +151,13 @@ def delete_file(filename):
     file_key.delete()
 
 
+def navigate(directory_name):
+    if directory_name == "../":
+        navigate_up()
+    else:
+        navigate_to_directory(directory_name)
+
+
 def navigate_up():
     my_user = get_my_user()
 
@@ -171,7 +170,7 @@ def navigate_up():
 def navigate_to_directory(directory_name):
     my_user = get_my_user()
 
-    parent_directory_object = get_current_directory_key().get()
+    parent_directory_object = get_current_directory_object()
     directory_id = my_user.key.id() + get_path(directory_name, parent_directory_object)
     directory_key = ndb.Key(Directory, directory_id)
 
@@ -188,8 +187,17 @@ def get_path(name, parent_directory_object):
 
 # returns true if current directory is root directory
 def is_in_root_directory():
-    current_directory = get_current_directory_key().get()
+    current_directory = get_current_directory_object()
     return True if current_directory.parent_directory is None else False
+
+
+def is_directory_empty(directory):
+    return not directory.files and not directory.directories
+
+
+# checks if a key is in a list of keys, if so returns true
+def exists(key, key_list):
+    return key not in key_list
 
 
 # returns key of current directory
@@ -198,15 +206,25 @@ def get_current_directory_key():
     return my_user.current_directory
 
 
+# returns key of current directory
+def get_current_directory_object():
+    return get_current_directory_key().get()
+
+
 # returns key of parent directory
 def get_parent_directory_key():
     current_directory = get_current_directory_key()
     return current_directory.get().parent_directory
 
 
-# Remove all '/' from the directory name
+# Remove all '/' and ';' from the directory name
 def prepare_directory_name(directory_name):
     return re.sub(r'[/;]', '', directory_name)
+
+
+# returns a given list in alphabetically order, sorted by attribute name
+def sort_list(list):
+    return sorted(list, key=lambda element: element.get().name.lower())
 
 
 def get_login_url(main_page):

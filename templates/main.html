@@ -145,22 +145,22 @@
                 <tr class="content_table_row">
                     <!-- icon -->
                     <td class="table_data icon_row">
-                        <a href="/download?file_name={{ file.get().filename }}">
+                        <a href="/download?file_name={{ file.get().name }}">
                             <i class="material-icons">insert_drive_file</i>
                         </a>
                     </td>
 
                     <!-- filename + download link -->
                     <td class="table_data" colspan="2">
-                        <a href="/download?file_name={{ file.get().filename }}" class="table_link">
-                            {{ file.get().filename }}
+                        <a href="/download?file_name={{ file.get().name }}" class="table_link">
+                            {{ file.get().name }}
                         </a>
                     </td>
 
                     <!-- delete button -->
                     <td class="table_data icon_row">
                         <form method="post" action="/" style="margin: 0px;">
-                            <input type="hidden" name="file_name" value="{{ file.get().filename }}"/>
+                            <input type="hidden" name="file_name" value="{{ file.get().name }}"/>
                             <button type="submit" name="button" class="button_delete" value="Delete">
                                 <i class="material-icons">delete</i>
                             </button>
