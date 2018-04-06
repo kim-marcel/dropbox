@@ -1,9 +1,9 @@
 from google.appengine.ext import ndb
 from google.appengine.api import users
+from google.appengine.ext import blobstore
 from myuser import MyUser
 from directory import Directory
 from file import File
-from google.appengine.ext import blobstore
 import logging
 import re
 
@@ -206,7 +206,7 @@ def get_parent_directory_key():
 
 # Remove all '/' from the directory name
 def prepare_directory_name(directory_name):
-    return re.sub(r'/', '', directory_name)
+    return re.sub(r'[/;]', '', directory_name)
 
 
 def get_login_url(main_page):

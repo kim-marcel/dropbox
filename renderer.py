@@ -16,8 +16,8 @@ def render_login(self, url):
 
 
 def render_main(self, url, directories, files, current_path, is_in_root, upload_url):
-    directories.sort()
-    files.sort()
+    directories = sorted(directories, key=lambda directories: directories.get().name.lower())
+    files = sorted(files, key=lambda files: files.get().filename.lower())
 
     template_values = {
         'url': url,
