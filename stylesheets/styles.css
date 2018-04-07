@@ -23,14 +23,13 @@ a:visited {
 .header_login {
     background-color: #34393f;
     text-align: center;
-    font-size: 25px;
-    font-weight: bolder;
+    font-size: 50px;
     color: #f4fcff;
     margin: auto;
     width: 30%;
     overflow: hidden;
     border: 0.5px solid #434647;
-    padding: 10px;
+    padding: 15px;
     box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     top: 0px;
 }
@@ -272,6 +271,37 @@ a:visited {
     color: rgba(0, 0, 0, 0.54);
 }
 
+.top_button {
+    display: none;
+    float: right;
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #34393f; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 10px; /* Some padding */
+    font-size: 16px; /* Increase font size */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.top_button:hover {
+    background-color: #21252c; /* Add a dark-grey background on hover */
+}
+
+.top_button_wrapper {
+    position:fixed;
+    bottom: 15px;
+    width: calc(50% - 25px);
+}
+
+/* mobile devices */
+@media only screen and (max-width: 768px) {
+    .top_button_wrapper {
+        width: calc(100% - 33px);
+    }
+}
+
 /*********** TABLES ***********/
 table {
     width: 100%;
@@ -307,6 +337,10 @@ td {
 
 .content_table_row:focus, .content_table_row:hover {
     background-color: rgb(223, 223, 223);
+}
+
+.table_content {
+    margin-bottom: 50px;
 }
 
 .icon_row {
