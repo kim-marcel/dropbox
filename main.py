@@ -34,6 +34,11 @@ class MainPage(webapp2.RequestHandler):
             directories_in_current_path = utilities.sort_list(directories_in_current_path)
             files_in_current_path = utilities.sort_list(files_in_current_path)
 
+            # extract file and directory names from the key list so that only the names have to be send to the gui
+            # and not the whole object
+            directories_in_current_path = utilities.get_names_from_list(directories_in_current_path)
+            files_in_current_path = utilities.get_names_from_list(files_in_current_path)
+
             renderer.render_main(self,
                                  utilities.get_logout_url(self),
                                  directories_in_current_path,
@@ -63,13 +68,14 @@ class MainPage(webapp2.RequestHandler):
             self.redirect('/')
 
         elif button_value == 'Delete':
-            directory_name = self.request.get('directory_name')
-            file_name = self.request.get('file_name')
+            name = self.request.get('name')
 
-            if directory_name == "":
-                utilities.delete_file(file_name)
-            else:
-                utilities.delete_directory(directory_name)
+            kind = self.request.get('kind')
+
+            if kind == 'file':
+                utilities.delete_file(name)
+            elif kind == 'directory':
+                utilities.delete_directory(name)
 
             self.redirect('/')
 

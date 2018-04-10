@@ -117,22 +117,23 @@
                 <tr class="content_table_row">
                     <!-- icon -->
                     <td class="table_data icon_row">
-                        <a href="/?directory_name={{ directory.get().name }}">
+                        <a href="/?directory_name={{ directory }}">
                             <i class="material-icons">folder</i>
                         </a>
                     </td>
 
                     <!-- directory name + link -->
                     <td class="table_data" colspan="2">
-                        <a href="/?directory_name={{ directory.get().name }}" class="table_link">
-                            {{ directory.get().name }}
+                        <a href="/?directory_name={{ directory }}" class="table_link">
+                            {{ directory }}
                         </a>
                     </td>
 
                     <!-- delete button -->
                     <td class="table_data icon_row">
                         <form method="post" action="/" style="margin: 0px;">
-                            <input type="hidden" name="directory_name" value="{{ directory.get().name }}"/>
+                            <input type="hidden" name="name" value="{{ directory }}"/>
+                            <input type="hidden" name="kind" value="directory"/>
                             <button type="submit" name="button" class="button_delete" value="Delete">
                                 <i class="material-icons">delete</i>
                             </button>
@@ -148,22 +149,23 @@
                 <tr class="content_table_row">
                     <!-- icon -->
                     <td class="table_data icon_row">
-                        <a href="/download?file_name={{ file.get().name }}">
+                        <a href="/download?file_name={{ file }}">
                             <i class="material-icons">insert_drive_file</i>
                         </a>
                     </td>
 
                     <!-- filename + download link -->
                     <td class="table_data" colspan="2">
-                        <a href="/download?file_name={{ file.get().name }}" class="table_link">
-                            {{ file.get().name }}
+                        <a href="/download?file_name={{ file }}" class="table_link">
+                            {{ file }}
                         </a>
                     </td>
 
                     <!-- delete button -->
                     <td class="table_data icon_row">
                         <form method="post" action="/" style="margin: 0px;">
-                            <input type="hidden" name="file_name" value="{{ file.get().name }}"/>
+                            <input type="hidden" name="name" value="{{ file }}"/>
+                            <input type="hidden" name="kind" value="file"/>
                             <button type="submit" name="button" class="button_delete" value="Delete">
                                 <i class="material-icons">delete</i>
                             </button>
@@ -176,7 +178,7 @@
     </table>
 
     <div class="top_button_wrapper">
-        <button onclick="goToTopFunction()" id="top_button" class="top_button">
+        <button id="top_button" class="top_button">
             <i class="material-icons">keyboard_arrow_up</i>
         </button>
     </div>

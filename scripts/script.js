@@ -28,27 +28,25 @@ function init() {
             inputText.removeAttribute('style');
         }
     });
+
+    var scrollUpButton = document.querySelector('#top_button');
+
+    scrollUpButton.addEventListener('click', function () {
+        // When the user clicks on the button, scroll to the top of the document
+        var i = window.scrollY;
+        var int = setInterval(function () {
+            window.scrollTo(0, i);
+            i -= 10;
+            if (i <= 0) clearInterval(int);
+        }, 3);
+    });
 }
 
-window.onscroll = function () {
-    scrollFunction()
-};
-
 // display/ hide scroll up button
-function scrollFunction() {
+window.onscroll = function () {
     if (document.body.scrollTop > 25 || document.documentElement.scrollTop > 25) {
         document.getElementById('top_button').style.display = "block";
     } else {
         document.getElementById('top_button').style.display = "none";
     }
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function goToTopFunction() {
-    var i = window.scrollY;
-    var int = setInterval(function () {
-        window.scrollTo(0, i);
-        i -= 10;
-        if (i <= 0) clearInterval(int);
-    }, 3);
-}
+};

@@ -51,6 +51,7 @@ def user_exists():
 def add_new_user(user):
     my_user = MyUser(id=user.user_id())
     add_root_directory(my_user)
+
     # set current path on first login to root directory
     my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
     my_user.put()
@@ -217,14 +218,24 @@ def get_parent_directory_key():
     return current_directory.get().parent_directory
 
 
-# Remove all '/' and ';' from the directory name
+# Remove all '/' and ';' from the directory name and leading whitespaces
 def prepare_directory_name(directory_name):
-    return re.sub(r'[/;]', '', directory_name)
+    return re.sub(r'[/;]', '', directory_name).lstrip()
 
 
-# returns a given list in alphabetically order, sorted by attribute name
-def sort_list(list):
-    return sorted(list, key=lambda element: element.get().name.lower())
+# returns a given list in alphabetical order, sorted by attribute name
+def sort_list(list_input):
+    return sorted(list_input, key=lambda element: element.get().name.lower())
+
+
+# extracts all the names from a list of directory/ file keys
+def get_names_from_list(elements):
+    names = list()
+
+    for element in elements:
+        names.append(element.get().name)
+
+    return names
 
 
 def get_login_url(main_page):
