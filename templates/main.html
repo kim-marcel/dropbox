@@ -14,7 +14,6 @@
 <body onload="init()">
 <div class="header">
     <div style="float:left; width:70%; text-align: left;">
-
         Dropbox
         <br>
         <a class="sub-headline" style="color: #bdbdbd;">
@@ -23,7 +22,6 @@
         <a class="sub-headline">
             {{ user.email() }}
         </a>
-
     </div>
 
     <div style="float:right">
@@ -32,6 +30,14 @@
                 Logout
             </div>
         </a>
+
+        <form method="post" action="/">
+            <input type="hidden" name="button" value="Home">
+            <button class="button" style="padding: 5px; margin-top: 7px" title="Navigate to the root directory.">
+                <i class="material-icons">home</i>
+            </button>
+        </form>
+
     </div>
 </div>
 

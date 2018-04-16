@@ -111,7 +111,7 @@ def add_file(upload, filename):
     else:
         # Delete uploaded file from the blobstore
         blobstore.delete(upload.key())
-        logging.debug('A file with this name already exists in this directory!')
+        logging.debug("A file with this name already exists in this directory!")
 
 
 def delete_directory(directory_name):
@@ -153,7 +153,7 @@ def delete_file(filename):
 
 
 def navigate(directory_name):
-    if directory_name == "../":
+    if directory_name == '../':
         navigate_up()
     else:
         navigate_to_directory(directory_name)
@@ -166,6 +166,13 @@ def navigate_up():
         parent_directory_key = get_parent_directory_key()
         my_user.current_directory = parent_directory_key
         my_user.put()
+
+
+def navigate_home():
+    my_user = get_my_user()
+
+    my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
+    my_user.put()
 
 
 def navigate_to_directory(directory_name):

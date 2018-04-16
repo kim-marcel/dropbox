@@ -289,14 +289,14 @@ a:visited {
 .top_button {
     display: none;
     float: right;
-    z-index: 99; /* Make sure it does not overlap */
-    border: none; /* Remove borders */
-    outline: none; /* Remove outline */
-    background-color: #34393f; /* Set a background color */
-    color: white; /* Text color */
-    cursor: pointer; /* Add a mouse pointer on hover */
-    padding: 10px; /* Some padding */
-    font-size: 16px; /* Increase font size */
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #34393f;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-transition: ease-out 0.4s;
     -moz-transition: ease-out 0.4s;
@@ -304,7 +304,7 @@ a:visited {
 }
 
 .top_button:hover {
-    background-color: #21252c; /* Add a dark-grey background on hover */
+    background-color: #21252c;
 }
 
 .top_button_wrapper {
@@ -324,7 +324,6 @@ a:visited {
 table {
     width: 100%;
     border-collapse: collapse;
-    -ms-word-break: break-all;
     word-break: break-all;
 }
 
