@@ -89,10 +89,7 @@ class MainPage(webapp2.RequestHandler):
 
         # Navigate to a directory sent in the url via get request
         if directory_name != '':
-            if directory_name == '../':
-                utilities.navigate_up()
-            else:
-                utilities.navigate_to_directory(directory_name)
+            utilities.navigate_to_directory(directory_name)
             self.redirect('/')
 
 

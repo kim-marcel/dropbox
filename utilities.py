@@ -224,6 +224,9 @@ def prepare_directory_name(directory_name):
 
 
 # returns a given list in alphabetical order, sorted by attribute name
+# only works with a keyproperty-list
+# The keys in this list have to be from an object that has a 'name' property of type strinproperty
+# In this case: used to sort keylist of files and directories
 def sort_list(list_input):
     return sorted(list_input, key=lambda element: element.get().name.lower())
 

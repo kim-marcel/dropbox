@@ -273,13 +273,15 @@ a:visited {
 
 .button_back {
     color: #000;
-    padding: 7px;
+    padding: 6px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     width: 100%;
     cursor: pointer;
+    background: transparent;
+    border: none;
 }
 
 .button_back:focus, .button_back:hover {
