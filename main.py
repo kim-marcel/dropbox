@@ -19,12 +19,7 @@ class MainPage(webapp2.RequestHandler):
             if not utilities.user_exists():
                 utilities.add_new_user(utilities.get_user())
 
-            directory_name = self.request.get('directory_name')
-
-            # Navigate to a directory sent in the url via get request
-            if directory_name != '':
-                utilities.navigate(directory_name)
-                self.redirect('/')
+            self.navigate()
 
             # get all directories and files in the current path
             directories_in_current_path = utilities.get_directories_in_current_path()
@@ -88,6 +83,17 @@ class MainPage(webapp2.RequestHandler):
             utilities.delete_file(name)
         elif kind == 'directory':
             utilities.delete_directory(name)
+
+    def navigate(self):
+        directory_name = self.request.get('directory_name')
+
+        # Navigate to a directory sent in the url via get request
+        if directory_name != '':
+            if directory_name == '../':
+                utilities.navigate_up()
+            else:
+                utilities.navigate_to_directory(directory_name)
+            self.redirect('/')
 
 
 # starts the web application and specifies the routing table
