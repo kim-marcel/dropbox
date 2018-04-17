@@ -21,24 +21,6 @@ def get_my_user():
         return my_user_key.get()
 
 
-def get_directories_in_current_path():
-    return get_current_directory_object().directories
-
-
-def get_files_in_current_path():
-    return get_current_directory_object().files
-
-
-def get_file_object(filename):
-    my_user = get_my_user()
-
-    parent_directory_object = get_current_directory_object()
-    file_path = get_path(filename, parent_directory_object)
-    file_id = my_user.key.id() + file_path
-    file_key = ndb.Key(File, file_id)
-    return file_key.get()
-
-
 def is_user_logged_in():
     return True if get_user() else False
 
@@ -51,9 +33,62 @@ def user_exists():
 def add_new_user(user):
     my_user = MyUser(id=user.user_id())
     add_root_directory(my_user)
+
     # set current path on first login to root directory
     my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
     my_user.put()
+
+
+def get_directories_in_current_path():
+    return get_current_directory_object().directories
+
+
+def get_files_in_current_path():
+    return get_current_directory_object().files
+
+
+def get_file_object(file_name):
+    my_user = get_my_user()
+
+    parent_directory_object = get_current_directory_object()
+    file_path = get_path(file_name, parent_directory_object)
+    file_id = my_user.key.id() + file_path
+    file_key = ndb.Key(File, file_id)
+    return file_key.get()
+
+
+def get_path(name, parent_directory_object):
+    if is_in_root_directory():
+        return parent_directory_object.path + name
+    else:
+        return parent_directory_object.path + '/' + name
+
+
+# returns true if current directory is root directory
+def is_in_root_directory():
+    current_directory = get_current_directory_object()
+    return True if current_directory.parent_directory is None else False
+
+
+def is_directory_empty(directory):
+    return not directory.files and not directory.directories
+
+
+# returns key of current directory
+def get_current_directory_key():
+    my_user = get_my_user()
+    return my_user.current_directory
+
+
+# returns key of current directory
+def get_current_directory_object():
+    return get_current_directory_key().get()
+
+
+# returns key of parent directory
+def get_parent_directory_key():
+    current_directory = get_current_directory_key()
+    return current_directory.get().parent_directory
 
 
 def add_root_directory(my_user):
@@ -92,15 +127,15 @@ def add_directory(name, parent_directory_key):
         directory.put()
 
 
-def add_file(upload, filename):
+def add_file(upload, file_name):
     my_user = get_my_user()
     current_directory_object = get_current_directory_object()
-    file_id = my_user.key.id() + get_path(filename, current_directory_object)
+    file_id = my_user.key.id() + get_path(file_name, current_directory_object)
     file_key = ndb.Key(File, file_id)
 
     if exists(file_key, current_directory_object.files):
         file_object = File(id=file_id)
-        file_object.name = filename
+        file_object.name = file_name
         file_object.blob = upload.key()
         file_object.put()
 
@@ -110,7 +145,7 @@ def add_file(upload, filename):
     else:
         # Delete uploaded file from the blobstore
         blobstore.delete(upload.key())
-        logging.debug('A file with this name already exists in this directory!')
+        logging.debug("A file with this name already exists in this directory!")
 
 
 def delete_directory(directory_name):
@@ -132,11 +167,11 @@ def delete_directory(directory_name):
         directory_key.delete()
 
 
-def delete_file(filename):
+def delete_file(file_name):
     my_user = get_my_user()
 
     parent_directory_object = get_current_directory_object()
-    file_path = get_path(filename, parent_directory_object)
+    file_path = get_path(file_name, parent_directory_object)
     file_id = my_user.key.id() + file_path
     file_key = ndb.Key(File, file_id)
 
@@ -151,13 +186,6 @@ def delete_file(filename):
     file_key.delete()
 
 
-def navigate(directory_name):
-    if directory_name == "../":
-        navigate_up()
-    else:
-        navigate_to_directory(directory_name)
-
-
 def navigate_up():
     my_user = get_my_user()
 
@@ -165,6 +193,13 @@ def navigate_up():
         parent_directory_key = get_parent_directory_key()
         my_user.current_directory = parent_directory_key
         my_user.put()
+
+
+def navigate_home():
+    my_user = get_my_user()
+
+    my_user.current_directory = ndb.Key(Directory, my_user.key.id() + '/')
+    my_user.put()
 
 
 def navigate_to_directory(directory_name):
@@ -178,53 +213,29 @@ def navigate_to_directory(directory_name):
     my_user.put()
 
 
-def get_path(name, parent_directory_object):
-    if is_in_root_directory():
-        return parent_directory_object.path + name
-    else:
-        return parent_directory_object.path + '/' + name
-
-
-# returns true if current directory is root directory
-def is_in_root_directory():
-    current_directory = get_current_directory_object()
-    return True if current_directory.parent_directory is None else False
-
-
-def is_directory_empty(directory):
-    return not directory.files and not directory.directories
-
-
 # checks if a key is in a list of keys, if so returns true
 def exists(key, key_list):
     return key not in key_list
 
 
-# returns key of current directory
-def get_current_directory_key():
-    my_user = get_my_user()
-    return my_user.current_directory
-
-
-# returns key of current directory
-def get_current_directory_object():
-    return get_current_directory_key().get()
-
-
-# returns key of parent directory
-def get_parent_directory_key():
-    current_directory = get_current_directory_key()
-    return current_directory.get().parent_directory
-
-
-# Remove all '/' and ';' from the directory name
+# Remove all '/' and ';' from the directory name and leading whitespaces
 def prepare_directory_name(directory_name):
-    return re.sub(r'[/;]', '', directory_name)
+    return re.sub(r'[/;]', '', directory_name).lstrip()
 
 
-# returns a given list in alphabetically order, sorted by attribute name
-def sort_list(list):
-    return sorted(list, key=lambda element: element.get().name.lower())
+# returns a given list in alphabetical order, sorted by attribute name
+def sort_list(list_input):
+    return sorted(list_input, key=lambda element: element.get().name.lower())
+
+
+# extracts all the names from a list of directory/ file keys
+def get_names_from_list(elements):
+    names = list()
+
+    for element in elements:
+        names.append(element.get().name)
+
+    return names
 
 
 def get_login_url(main_page):

@@ -23,14 +23,13 @@ a:visited {
 .header_login {
     background-color: #34393f;
     text-align: center;
-    font-size: 25px;
-    font-weight: bolder;
+    font-size: 50px;
     color: #f4fcff;
     margin: auto;
     width: 30%;
     overflow: hidden;
     border: 0.5px solid #434647;
-    padding: 10px;
+    padding: 15px;
     box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     top: 0px;
 }
@@ -155,6 +154,9 @@ a:visited {
     font-size: 16px;
     width: 99%;
     cursor: pointer;
+    -webkit-transition: ease-out 0.2s;
+    -moz-transition: ease-out 0.2s;
+    transition: ease-out 0.2s;
 }
 
 .input_file:focus + label, .input_file + label:hover {
@@ -170,6 +172,9 @@ a:visited {
     padding: 12px;
     font-size: 16px;
     font-family: 'Questrial';
+    -webkit-transition: ease-out 0.2s;
+    -moz-transition: ease-out 0.2s;
+    transition: ease-out 0.2s;
 }
 
 .text_input:focus, .text_input:hover {
@@ -196,6 +201,9 @@ a:visited {
     margin: auto;
     width: 100%;
     padding: 15px;
+    -webkit-transition: ease-out 0.4s;
+    -moz-transition: ease-out 0.4s;
+    transition: ease-out 0.4s;
 }
 
 .button_element_login:focus, .button_element_login:hover {
@@ -212,6 +220,9 @@ a:visited {
     padding: 10px;
     padding-left: 20px;
     padding-right: 20px;
+    -webkit-transition: ease-out 0.2s;
+    -moz-transition: ease-out 0.2s;
+    transition: ease-out 0.2s;
 }
 
 .button_element_logout:focus, .button_element_logout:hover {
@@ -232,6 +243,9 @@ a:visited {
     width: 100%;
     float: right;
     cursor: pointer;
+    -webkit-transition: ease-out 0.4s;
+    -moz-transition: ease-out 0.4s;
+    transition: ease-out 0.4s;
 }
 
 .button:focus, .button:hover {
@@ -272,11 +286,44 @@ a:visited {
     color: rgba(0, 0, 0, 0.54);
 }
 
+.top_button {
+    display: none;
+    float: right;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #34393f;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-transition: ease-out 0.4s;
+    -moz-transition: ease-out 0.4s;
+    transition: ease-out 0.4s;
+}
+
+.top_button:hover {
+    background-color: #21252c;
+}
+
+.top_button_wrapper {
+    position: fixed;
+    bottom: 15px;
+    width: calc(50% - 25px);
+}
+
+/* mobile devices */
+@media only screen and (max-width: 768px) {
+    .top_button_wrapper {
+        width: calc(100% - 33px);
+    }
+}
+
 /*********** TABLES ***********/
 table {
     width: 100%;
     border-collapse: collapse;
-    -ms-word-break: break-all;
     word-break: break-all;
 }
 
@@ -307,6 +354,10 @@ td {
 
 .content_table_row:focus, .content_table_row:hover {
     background-color: rgb(223, 223, 223);
+}
+
+.table_content {
+    margin-bottom: 50px;
 }
 
 .icon_row {

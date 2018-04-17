@@ -9,7 +9,9 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 
 def render_login(self, url):
-    template_values = {'url': url}
+    template_values = {
+        'url': url
+    }
 
     template = JINJA_ENVIRONMENT.get_template('/templates/login.html')
     self.response.write(template.render(template_values))

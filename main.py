@@ -10,7 +10,7 @@ from google.appengine.ext import blobstore
 class MainPage(webapp2.RequestHandler):
     # GET-request
     def get(self):
-        logging.debug("GET")
+        logging.debug('GET')
         self.response.headers['Content-Type'] = 'text/html'
 
         # check whether user is logged in
@@ -19,12 +19,7 @@ class MainPage(webapp2.RequestHandler):
             if not utilities.user_exists():
                 utilities.add_new_user(utilities.get_user())
 
-            directory_name = self.request.get('directory_name')
-
-            # Navigate to a directory sent in the url via get request
-            if directory_name != "":
-                utilities.navigate(directory_name)
-                self.redirect('/')
+            self.navigate()
 
             # get all directories and files in the current path
             directories_in_current_path = utilities.get_directories_in_current_path()
@@ -33,6 +28,11 @@ class MainPage(webapp2.RequestHandler):
             # sort all directories and files alphabetically
             directories_in_current_path = utilities.sort_list(directories_in_current_path)
             files_in_current_path = utilities.sort_list(files_in_current_path)
+
+            # extract file and directory names from the key list
+            # so that only the names have to be send to the gui and not the whole object
+            directories_in_current_path = utilities.get_names_from_list(directories_in_current_path)
+            files_in_current_path = utilities.get_names_from_list(files_in_current_path)
 
             renderer.render_main(self,
                                  utilities.get_logout_url(self),
@@ -48,33 +48,51 @@ class MainPage(webapp2.RequestHandler):
 
     # POST-request
     def post(self):
-        logging.debug("POST")
+        logging.debug('POST')
         self.response.headers['Content-Type'] = 'text/html'
 
         button_value = self.request.get('button')
 
         if button_value == 'Add':
-            directory_name = self.request.get('value')
-
-            directory_name = utilities.prepare_directory_name(directory_name)
-
-            if not (directory_name is None or directory_name == ""):
-                utilities.add_directory(directory_name, utilities.get_current_directory_key())
+            self.add()
             self.redirect('/')
 
         elif button_value == 'Delete':
-            directory_name = self.request.get('directory_name')
-            file_name = self.request.get('file_name')
-
-            if directory_name == "":
-                utilities.delete_file(file_name)
-            else:
-                utilities.delete_directory(directory_name)
-
+            self.delete()
             self.redirect('/')
 
         elif button_value == 'Up':
             utilities.navigate_up()
+            self.redirect('/')
+
+        elif button_value == 'Home':
+            utilities.navigate_home()
+            self.redirect('/')
+
+    def add(self):
+        directory_name = self.request.get('value')
+        directory_name = utilities.prepare_directory_name(directory_name)
+        if not (directory_name is None or directory_name == ''):
+            utilities.add_directory(directory_name, utilities.get_current_directory_key())
+
+    def delete(self):
+        name = self.request.get('name')
+        kind = self.request.get('kind')
+
+        if kind == 'file':
+            utilities.delete_file(name)
+        elif kind == 'directory':
+            utilities.delete_directory(name)
+
+    def navigate(self):
+        directory_name = self.request.get('directory_name')
+
+        # Navigate to a directory sent in the url via get request
+        if directory_name != '':
+            if directory_name == '../':
+                utilities.navigate_up()
+            else:
+                utilities.navigate_to_directory(directory_name)
             self.redirect('/')
 
 
