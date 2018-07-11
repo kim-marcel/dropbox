@@ -4,7 +4,7 @@ This is a simple "Dropbox" replica built with [Google App Engine](https://cloud.
 ## Getting Started
 
 ### Prerequisites
- - [Python](https://docs.python.org/2.7/) 
+ - [Python 2.7](https://docs.python.org/2.7/) 
  - [Google Cloud SDK for Python](https://cloud.google.com/appengine/docs/standard/python/download)
 
 ### Run the Application
